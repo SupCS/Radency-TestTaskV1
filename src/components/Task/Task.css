@@ -1,0 +1,68 @@
+.task-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: auto;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+  
+  
+.task-title {
+    margin: 0 0 5px 0;
+}
+
+.calendar-icon {
+    width: 20px;
+}
+  
+.task-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+  
+.task-metadata {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+  
+.task-priority {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ddd;
+    padding: 3px 10px;
+    border-radius: 15px;
+    width: fit-content;
+}
+
+.priority-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+}
+
+.task-priority.low .priority-circle {
+    background-color: green;
+}
+
+.task-priority.medium .priority-circle {
+    background-color: orange;
+}
+
+.task-priority.high .priority-circle {
+    background-color: red;
+}
+
+.priority-text {
+    font-size: 16px;
+}

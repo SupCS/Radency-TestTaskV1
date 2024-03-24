@@ -1,0 +1,5 @@
+.columns-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+}   
