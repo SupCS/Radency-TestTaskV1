@@ -19,6 +19,7 @@
 
 .button-icon {
     width: 16px;
+    height: auto
 }
 
 .button:hover {
@@ -29,5 +30,9 @@
 .button-dark:hover {
     background-color: #555;
     color: #fff;
+}
+
+.button:active, .button-dark:active {
+    transform: scale(0.95);
 }
   
