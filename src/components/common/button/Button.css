@@ -1,0 +1,33 @@
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.button-dark {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+.button-icon {
+    width: 16px;
+}
+
+.button:hover {
+    background-color: #cfcfcf;
+    color: #000;
+  }
+  
+.button-dark:hover {
+    background-color: #555;
+    color: #fff;
+}
+  
