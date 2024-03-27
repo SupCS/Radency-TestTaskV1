@@ -53,4 +53,18 @@ export class TasksService {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
   }
+
+  async move(id: number, taskListId: number): Promise<Task> {
+    const task = await this.tasksRepository.findOneBy({ id });
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+    const taskList = await this.taskListRepository.findOneBy({ id: taskListId });
+    if (!taskList) {
+      throw new NotFoundException(`TaskList with ID ${taskListId} not found`);
+    }
+    task.taskList = taskList;
+    return this.tasksRepository.save(task);
+  }
+  
 }

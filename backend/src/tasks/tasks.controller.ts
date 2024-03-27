@@ -27,6 +27,12 @@ export class TasksController {
     return this.tasksService.update(id, task);
   }
 
+  @Put(':id/move')
+  move(@Param('id') id: number, @Body('taskListId') taskListId: number): Promise<Task> {
+    return this.tasksService.move(id, taskListId);
+  }
+
+
   @Delete(':id')
   remove(@Param('id') id: number): Promise<void> {
     return this.tasksService.remove(id);
