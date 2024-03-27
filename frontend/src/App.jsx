@@ -19,6 +19,50 @@ function App() {
             .catch((error) => console.error("Error fetching data:", error));
     };
 
+    const updateTitle = async (listId, newName) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/task-lists/${listId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name: newName }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Failed to update list title:", error);
+        }
+    };
+
+    const addNewList = async () => {
+        const newListName = "New list"; // Стандартна назва для нового списку
+        try {
+            const response = await fetch("http://localhost:3001/task-lists", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name: newListName }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Could not create new list");
+            }
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Failed to add new list:", error);
+        }
+    };
+
     const addTask = async (taskListId, task) => {
         try {
             const response = await fetch("http://localhost:3001/tasks", {
@@ -44,7 +88,7 @@ function App() {
         <div className="App">
             <div className="container">
                 {/* <Button icon={historyIcon}>Кнопка</Button> */}
-                <Button icon={plusIconLight} dark>
+                <Button icon={plusIconLight} dark onClick={addNewList}>
                     New list
                 </Button>
                 <div className="columns-wrapper">
@@ -55,6 +99,7 @@ function App() {
                             title={list.name}
                             tasks={list.tasks || []}
                             onAddTask={addTask}
+                            onUpdateTitle={updateTitle}
                         />
                     ))}
                 </div>

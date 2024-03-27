@@ -7,8 +7,23 @@ import plusIconLight from "../../assets/icons/plusIconLight.svg";
 import kebabIcon from "../../assets/icons/kebabIcon.svg";
 import Modal from "../common/modal/Modal.jsx";
 
-const List = ({ id, title, tasks, onAddTask }) => {
+const List = ({ id, title, tasks, onAddTask, onUpdateTitle }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [newTitle, setNewTitle] = useState(title);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleDoubleClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleChangeTitle = (e) => {
+        setNewTitle(e.target.value);
+    };
+
+    const handleBlur = () => {
+        onUpdateTitle(id, newTitle);
+        setIsEditing(false);
+    };
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -26,7 +41,22 @@ const List = ({ id, title, tasks, onAddTask }) => {
     return (
         <div className="column">
             <div className="column-header-container">
-                <h2 className="column-title">{title}</h2>
+                {isEditing ? (
+                    <input
+                        type="text"
+                        value={newTitle}
+                        onChange={handleChangeTitle}
+                        onBlur={handleBlur}
+                        autoFocus
+                    />
+                ) : (
+                    <h2
+                        className="column-title"
+                        onDoubleClick={handleDoubleClick}
+                    >
+                        {title}
+                    </h2>
+                )}
                 <button className="kebab-menu-button">
                     <img
                         className="kebab-icon"

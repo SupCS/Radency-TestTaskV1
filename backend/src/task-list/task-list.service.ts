@@ -17,7 +17,7 @@ export class TaskListService {
   }
 
   async findAll(): Promise<TaskList[]> {
-    return this.taskListRepository.find({ relations: ['tasks'] });
+    return this.taskListRepository.find({ relations: ['tasks'], order: {id: 'ASC'} });
   }
 
   async findOne(id: number): Promise<TaskList> {
