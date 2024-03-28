@@ -126,6 +126,26 @@ function App() {
         }
     };
 
+    const editTask = async (editedTask) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/tasks/${editedTask.taskId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(editedTask),
+                }
+            );
+            if (!response.ok) throw new Error("Failed to update the task");
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Error updating task:", error);
+        }
+    };
+
     return (
         <div className="App">
             <div className="container">
@@ -145,6 +165,7 @@ function App() {
                             onDeleteList={deleteList}
                             onMoveTask={moveTask}
                             taskLists={taskLists}
+                            onEditTaskSubmit={editTask}
                         />
                     ))}
                 </div>

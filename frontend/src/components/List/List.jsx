@@ -4,7 +4,7 @@ import TaskForm from "../common/taskform/TaskForm.jsx";
 import Task from "../Task/Task";
 import Button from "../common/Button/Button.jsx";
 import plusIconLight from "../../assets/icons/plusIconLight.svg";
-import Modal from "../common/modal/Modal.jsx";
+import Modal from "../common/modal/CreateTaskModal.jsx";
 import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 
 const List = ({
@@ -16,6 +16,7 @@ const List = ({
     onDeleteList,
     onMoveTask,
     taskLists,
+    onEditTaskSubmit,
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
@@ -90,6 +91,7 @@ const List = ({
                         onMoveTask={(taskId, newListId) =>
                             onMoveTask(taskId, newListId)
                         }
+                        onEditTaskSubmit={onEditTaskSubmit}
                     />
                 ))}
             </div>

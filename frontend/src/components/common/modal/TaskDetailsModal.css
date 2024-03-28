@@ -1,0 +1,95 @@
+.details-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.details-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    width: 80%;
+    height: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.details-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.task-details {
+    display: flex;
+    padding: 20px;
+    height: 100%;
+}
+
+.task-info, .additional-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-info {
+    flex: 0 1 65%;
+}
+
+.history-section {
+    flex: 0 1 35%;
+    background-color: #f0f0f0;
+}
+
+.edit-task-btn {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    align-self: flex-start;
+}
+
+p {
+    color: #666;
+    font-size: 14px;    
+}
+
+.task-info-value {
+    margin-left: 25px;
+}
+
+.task-info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.task-label {
+    flex-basis: 30%;
+    margin-right: 10px;
+}
+
+.task-value {
+    flex-grow: 1;
+}
+
+.task-info-header {
+    display: flex;
+    gap: 20px;
+}
