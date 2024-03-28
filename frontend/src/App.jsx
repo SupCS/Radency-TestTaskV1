@@ -19,6 +19,25 @@ function App() {
             .catch((error) => console.error("Error fetching data:", error));
     };
 
+    const deleteList = async (listId) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/task-lists/${listId}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Failed to delete list:", error);
+        }
+    };
+
     const updateTitle = async (listId, newName) => {
         try {
             const response = await fetch(
@@ -100,6 +119,7 @@ function App() {
                             tasks={list.tasks || []}
                             onAddTask={addTask}
                             onUpdateTitle={updateTitle}
+                            onDeleteList={deleteList}
                         />
                     ))}
                 </div>

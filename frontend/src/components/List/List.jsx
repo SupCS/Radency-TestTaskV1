@@ -7,7 +7,7 @@ import plusIconLight from "../../assets/icons/plusIconLight.svg";
 import Modal from "../common/modal/Modal.jsx";
 import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 
-const List = ({ id, title, tasks, onAddTask, onUpdateTitle }) => {
+const List = ({ id, title, tasks, onAddTask, onUpdateTitle, onDeleteList }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,12 +58,8 @@ const List = ({ id, title, tasks, onAddTask, onUpdateTitle }) => {
                     </h2>
                 )}
                 <KebabMenu>
-                    <button onClick={() => console.log("Edit")}>
-                        Редагувати
-                    </button>
-                    <button onClick={() => console.log("Delete")}>
-                        Видалити
-                    </button>
+                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                    <button onClick={() => onDeleteList(id)}>Delete</button>
                 </KebabMenu>
             </div>
             <Button icon={plusIconLight} dark onClick={handleOpenModal}>

@@ -9,7 +9,6 @@ import { TaskListModule } from '../task-list/task-list.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Task, TaskList]),
-    TaskListModule,
   ],
   controllers: [TasksController],
   providers: [TasksService],
