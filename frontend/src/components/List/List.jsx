@@ -4,8 +4,8 @@ import TaskForm from "../common/taskform/TaskForm.jsx";
 import Task from "../Task/Task";
 import Button from "../common/Button/Button.jsx";
 import plusIconLight from "../../assets/icons/plusIconLight.svg";
-import kebabIcon from "../../assets/icons/kebabIcon.svg";
 import Modal from "../common/modal/Modal.jsx";
+import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 
 const List = ({ id, title, tasks, onAddTask, onUpdateTitle }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -57,13 +57,14 @@ const List = ({ id, title, tasks, onAddTask, onUpdateTitle }) => {
                         {title}
                     </h2>
                 )}
-                <button className="kebab-menu-button">
-                    <img
-                        className="kebab-icon"
-                        src={kebabIcon}
-                        alt="menu"
-                    ></img>
-                </button>
+                <KebabMenu>
+                    <button onClick={() => console.log("Edit")}>
+                        Редагувати
+                    </button>
+                    <button onClick={() => console.log("Delete")}>
+                        Видалити
+                    </button>
+                </KebabMenu>
             </div>
             <Button icon={plusIconLight} dark onClick={handleOpenModal}>
                 Add new task

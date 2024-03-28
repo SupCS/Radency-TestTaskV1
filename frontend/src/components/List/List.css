@@ -23,14 +23,3 @@
     justify-content: space-between;
     margin: 0 0 16px 0;
 }
-
-.kebab-menu-button { 
-    border: none; 
-    outline: none;
-    cursor: pointer;
-}
-
-.kebab-icon {
-    height: 30px;
-    width: auto;
-}
