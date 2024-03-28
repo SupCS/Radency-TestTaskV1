@@ -7,7 +7,16 @@ import plusIconLight from "../../assets/icons/plusIconLight.svg";
 import Modal from "../common/modal/Modal.jsx";
 import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 
-const List = ({ id, title, tasks, onAddTask, onUpdateTitle, onDeleteList }) => {
+const List = ({
+    id,
+    title,
+    tasks,
+    onAddTask,
+    onUpdateTitle,
+    onDeleteList,
+    onMoveTask,
+    taskLists,
+}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,11 +80,16 @@ const List = ({ id, title, tasks, onAddTask, onUpdateTitle, onDeleteList }) => {
             <div className="tasks-list">
                 {tasks.map((task, index) => (
                     <Task
-                        key={index}
+                        key={task.id}
+                        taskId={task.id}
                         taskName={task.taskName}
                         taskDescription={task.taskDescription}
                         dueDate={task.dueDate}
                         priority={task.priority}
+                        taskLists={taskLists.filter((list) => list.id !== id)} // Виключаємо поточний список з опцій переміщення
+                        onMoveTask={(taskId, newListId) =>
+                            onMoveTask(taskId, newListId)
+                        }
                     />
                 ))}
             </div>

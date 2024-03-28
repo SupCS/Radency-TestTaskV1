@@ -67,3 +67,29 @@
 .priority-text {
     font-size: 16px;
 }
+
+.task-card select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;  
+    padding: 8px;
+    padding-right: 24px;
+    background-image: url('../../assets/icons/downArrow.svg');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+}
+
+.task-card select:focus {
+    outline: none;
+    border-color: #aaa;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}

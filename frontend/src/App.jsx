@@ -103,10 +103,33 @@ function App() {
         }
     };
 
+    const moveTask = async (taskId, newListId) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/tasks/${taskId}/move`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ taskListId: newListId }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not move task");
+            }
+
+            fetchTasks(); // Оновлення списку завдань після переміщення
+        } catch (error) {
+            console.error("Failed to move task:", error);
+        }
+    };
+
     return (
         <div className="App">
             <div className="container">
-                {/* <Button icon={historyIcon}>Кнопка</Button> */}
+                <Button icon={historyIcon}>History</Button>
                 <Button icon={plusIconLight} dark onClick={addNewList}>
                     New list
                 </Button>
@@ -120,6 +143,8 @@ function App() {
                             onAddTask={addTask}
                             onUpdateTitle={updateTitle}
                             onDeleteList={deleteList}
+                            onMoveTask={moveTask}
+                            taskLists={taskLists}
                         />
                     ))}
                 </div>
