@@ -6,6 +6,8 @@ import Button from "../common/Button/Button.jsx";
 import plusIconLight from "../../assets/icons/plusIconLight.svg";
 import Modal from "../common/modal/CreateTaskModal.jsx";
 import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
+import editIcon from "../../assets/icons/editIcon.svg";
+import deleteIcon from "../../assets/icons/deleteIcon.svg";
 
 const List = ({
     id,
@@ -17,6 +19,7 @@ const List = ({
     onMoveTask,
     taskLists,
     onEditTaskSubmit,
+    onDeleteTask,
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
@@ -68,8 +71,12 @@ const List = ({
                     </h2>
                 )}
                 <KebabMenu>
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
-                    <button onClick={() => onDeleteList(id)}>Delete</button>
+                    <Button icon={editIcon} onClick={() => setIsEditing(true)}>
+                        Edit
+                    </Button>
+                    <Button icon={deleteIcon} onClick={() => onDeleteList(id)}>
+                        Delete
+                    </Button>
                 </KebabMenu>
             </div>
             <Button icon={plusIconLight} dark onClick={handleOpenModal}>
@@ -92,6 +99,7 @@ const List = ({
                             onMoveTask(taskId, newListId)
                         }
                         onEditTaskSubmit={onEditTaskSubmit}
+                        onDeleteTask={onDeleteTask}
                     />
                 ))}
             </div>

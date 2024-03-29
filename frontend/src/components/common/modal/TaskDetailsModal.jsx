@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./TaskDetailsModal.css";
 import Button from "../Button/Button";
+import editIcon from "../../../assets/icons/editIcon.svg";
 
 const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTask, setEditedTask] = useState({ ...task });
+    const [historyLogs, setHistoryLogs] = useState([]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -12,6 +14,31 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
             setEditedTask({ ...task });
         }
     }, [isOpen, task]);
+
+    useEffect(() => {
+        if (isOpen && task.taskId) {
+            fetch(`http://localhost:3001/activity-logs?taskId=${task.taskId}`)
+                .then((response) => response.json())
+                .then((data) => setHistoryLogs(data.reverse()))
+                .catch((error) =>
+                    console.error("Error loading task history logs:", error)
+                );
+        }
+    }, [isOpen, task.taskId, task]);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (isOpen && !event.target.closest(".details-modal-content")) {
+                onClose();
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [isOpen, onClose]);
 
     if (!isOpen) return null;
 
@@ -34,13 +61,27 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                 <div className="task-details">
                     <div className="task-info">
                         <div className="task-info-header">
-                            <h2>{task.taskName}</h2>
                             {!isEditing ? (
-                                <Button onClick={() => setIsEditing(true)}>
-                                    Edit task
-                                </Button>
+                                <>
+                                    <h2>{task.taskName}</h2>
+                                    <Button
+                                        icon={editIcon}
+                                        onClick={() => setIsEditing(true)}
+                                    >
+                                        Edit task
+                                    </Button>
+                                </>
                             ) : (
-                                <Button onClick={handleSave}>Save</Button>
+                                <>
+                                    <input
+                                        type="text"
+                                        name="taskName"
+                                        value={editedTask.taskName}
+                                        onChange={handleChange}
+                                        autoFocus
+                                    />
+                                    <Button onClick={handleSave}>Save</Button>
+                                </>
                             )}
                         </div>
                         {isEditing ? (
@@ -82,14 +123,44 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                             </>
                         ) : (
                             <>
-                                <p>Due date: {task.dueDate}</p>
-                                <p>Priority: {task.priority}</p>
+                                <div className="task-info-row">
+                                    <div className="task-label">Due date:</div>
+                                    <div className="task-value">
+                                        {task.dueDate}
+                                    </div>
+                                </div>
+                                <div className="task-info-row">
+                                    <div className="task-label">Priority:</div>
+                                    <div className="task-value">
+                                        {task.priority}
+                                    </div>
+                                </div>
                                 <h3>Description</h3>
                                 <p>{task.taskDescription}</p>
                             </>
                         )}
                     </div>
-                    <div className="history-section"></div>
+                    <div className="history-section">
+                        <ul>
+                            {historyLogs.map((log) => (
+                                <li key={log.id}>
+                                    <p>{log.description}</p>
+                                    <small>
+                                        {new Date(log.timestamp).toLocaleString(
+                                            "en-US",
+                                            {
+                                                month: "short",
+                                                day: "numeric",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                                hour12: true,
+                                            }
+                                        )}
+                                    </small>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
                 <button className="details-close-modal" onClick={onClose}>
                     ✕

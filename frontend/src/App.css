@@ -1,5 +1,18 @@
 .columns-wrapper {
     display: flex;
     overflow-x: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
     gap: 16px;
-}   
+}
+
+.columns-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.app-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-end;
+}

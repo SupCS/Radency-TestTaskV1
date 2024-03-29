@@ -7,6 +7,7 @@
     border: none; 
     outline: none;
     cursor: pointer;
+    background-color: inherit;
 }
 
 .kebab-icon {
@@ -34,8 +35,13 @@
     width: 100%;
     text-align: left;
     cursor: pointer;
+    justify-content: center;
 }
 
 .popup-menu button:hover {
     background-color: #f0f0f0;
+}
+
+.popup-menu button img {
+    margin-right: 5px;
 }

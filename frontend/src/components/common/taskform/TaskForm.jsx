@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import plusIconLight from "../../../assets/icons/plusIconLight.svg";
 import Button from "../Button/Button";
+import styles from "./TaskForm.module.css";
 
 const TaskForm = ({ onSave }) => {
     const [taskName, setTaskName] = useState("");
@@ -19,11 +20,12 @@ const TaskForm = ({ onSave }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={styles.createTaskForm} onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Task Name"
                 value={taskName}
+                className={styles.taskName}
                 onChange={(e) => setTaskName(e.target.value)}
             />
             <textarea
@@ -46,7 +48,7 @@ const TaskForm = ({ onSave }) => {
                 <option value="high">High</option>
             </select>
             <Button icon={plusIconLight} dark>
-                Темна кнопка
+                Create Task
             </Button>
         </form>
     );

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import "./Task.css";
 import calendarIcon from "../../assets/icons/calendarIcon.svg";
 import TaskDetailsModal from "../common/modal/TaskDetailsModal";
+import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
+import Button from "../common/Button/Button.jsx";
+import editIcon from "../../assets/icons/editIcon.svg";
+import deleteIcon from "../../assets/icons/deleteIcon.svg";
 
 const Task = ({
     taskName,
@@ -12,6 +16,7 @@ const Task = ({
     onMoveTask,
     taskId,
     onEditTaskSubmit,
+    onDeleteTask,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,6 +34,7 @@ const Task = ({
     };
 
     const handleMoveTask = (e, newListId) => {
+        e.stopPropagation();
         onMoveTask(taskId, newListId);
     };
 
@@ -44,7 +50,29 @@ const Task = ({
 
     return (
         <div className={`task-card`} onClick={() => setIsModalOpen(true)}>
-            <h3 className="task-title">{taskName}</h3>
+            <div className="task-header-container">
+                <h3 className="task-title">{taskName}</h3>
+                <KebabMenu>
+                    <Button
+                        icon={editIcon}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsModalOpen(true);
+                        }}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        icon={deleteIcon}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDeleteTask(taskId);
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </KebabMenu>
+            </div>
             <p className="task-description">{taskDescription}</p>
             <div className="task-metadata">
                 <img
@@ -59,7 +87,7 @@ const Task = ({
                 <span className="priority-text">{priorityText(priority)}</span>
             </div>
             <select
-                onChange={(e) => handleMoveTask(e.target.value)}
+                onChange={(e) => handleMoveTask(e, e.target.value)}
                 onClick={(e) => e.stopPropagation()}
             >
                 <option value="">Move to:</option>

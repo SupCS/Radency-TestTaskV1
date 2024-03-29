@@ -6,7 +6,10 @@ const KebabMenu = ({ children }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const menuRef = useRef();
 
-    const togglePopup = () => setIsPopupOpen(!isPopupOpen);
+    const togglePopup = (event) => {
+        event.stopPropagation();
+        setIsPopupOpen(!isPopupOpen);
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {

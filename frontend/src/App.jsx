@@ -4,9 +4,13 @@ import historyIcon from "./assets/icons/historyIcon.svg";
 import Button from "./components/common/Button/Button";
 import List from "./components/List/List";
 import React, { useState, useEffect } from "react";
+import HistorySidebar from "./components/History/HistorySidebar";
 
 function App() {
     const [taskLists, setTaskLists] = useState([]);
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
+    const toggleHistory = () => setIsHistoryOpen(!isHistoryOpen);
 
     useEffect(() => {
         fetchTasks();
@@ -35,6 +39,25 @@ function App() {
             fetchTasks();
         } catch (error) {
             console.error("Failed to delete list:", error);
+        }
+    };
+
+    const deleteTask = async (taskId) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/tasks/${taskId}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Failed to delete task:", error);
         }
     };
 
@@ -149,10 +172,18 @@ function App() {
     return (
         <div className="App">
             <div className="container">
-                <Button icon={historyIcon}>History</Button>
-                <Button icon={plusIconLight} dark onClick={addNewList}>
-                    New list
-                </Button>
+                <div className="app-buttons-container">
+                    <Button onClick={toggleHistory} icon={historyIcon}>
+                        History
+                    </Button>
+                    <Button icon={plusIconLight} dark onClick={addNewList}>
+                        New list
+                    </Button>
+                </div>
+                <HistorySidebar
+                    isOpen={isHistoryOpen}
+                    onClose={() => setIsHistoryOpen(false)}
+                />
                 <div className="columns-wrapper">
                     {taskLists.map((list) => (
                         <List
@@ -166,6 +197,7 @@ function App() {
                             onMoveTask={moveTask}
                             taskLists={taskLists}
                             onEditTaskSubmit={editTask}
+                            onDeleteTask={deleteTask}
                         />
                     ))}
                 </div>

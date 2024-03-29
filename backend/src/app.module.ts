@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { TaskListModule } from './task-list/task-list.module';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
+import { ActivityLogService } from './activity-log/activity-log.service';
+import { ActivityLogModule } from './activity-log/activity-log.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { TasksModule } from './tasks/tasks.module';
     } as TypeOrmModuleOptions),
     TaskListModule,
     TasksModule,
+    ActivityLogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
