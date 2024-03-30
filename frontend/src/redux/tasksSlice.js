@@ -1,21 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as tasksService from "../services/tasksService";
 
 export const addTask = createAsyncThunk(
     "tasks/addTask",
     async (task, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3001/tasks`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(task),
-            });
-            if (!response.ok) throw new Error("Failed to add task");
-            const data = await response.json();
+            const data = await tasksService.addTask(task);
             return data;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.toString());
         }
     }
 );
@@ -24,35 +17,23 @@ export const deleteTask = createAsyncThunk(
     "tasks/deleteTask",
     async (taskId, { rejectWithValue }) => {
         try {
-            await fetch(`http://localhost:3001/tasks/${taskId}`, {
-                method: "DELETE",
-            });
+            await tasksService.deleteTask(taskId);
             return taskId;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.toString());
         }
     }
 );
 
 export const updateTask = createAsyncThunk(
     "tasks/updateTask",
-    async (editedTask, { rejectWithValue }) => {
+    async ({ taskId, updatedTask }, { rejectWithValue }) => {
+        console.log(taskId, updatedTask);
         try {
-            const response = await fetch(
-                `http://localhost:3001/tasks/${editedTask.taskId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(editedTask),
-                }
-            );
-            if (!response.ok) throw new Error("Failed to update task");
-            const data = await response.json();
+            const data = await tasksService.updateTask(taskId, updatedTask);
             return data;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.toString());
         }
     }
 );
@@ -61,21 +42,10 @@ export const moveTaskToList = createAsyncThunk(
     "tasks/moveTaskToList",
     async ({ taskId, newListId }, { rejectWithValue }) => {
         try {
-            const response = await fetch(
-                `http://localhost:3001/tasks/${taskId}/move`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ taskListId: newListId }),
-                }
-            );
-            if (!response.ok) throw new Error("Failed to move task");
-            const data = await response.json();
+            const data = await tasksService.moveTaskToList(taskId, newListId);
             return data;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.toString());
         }
     }
 );
@@ -106,7 +76,6 @@ export const tasksSlice = createSlice({
                 });
             })
             .addCase(updateTask.fulfilled, (state, action) => {
-                console.log(state);
                 const listIndex = state.items.findIndex(
                     (list) => list.id === action.payload.taskListId
                 );

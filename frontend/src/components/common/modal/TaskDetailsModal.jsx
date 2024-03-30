@@ -1,56 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./TaskDetailsModal.css";
 import Button from "../Button/Button";
 import editIcon from "../../../assets/icons/editIcon.svg";
 
-const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedTask, setEditedTask] = useState({ ...task });
-    const [historyLogs, setHistoryLogs] = useState([]);
-
-    useEffect(() => {
-        if (!isOpen) {
-            setIsEditing(false);
-            setEditedTask({ ...task });
-        }
-    }, [isOpen, task]);
-
-    useEffect(() => {
-        if (isOpen && task.taskId) {
-            fetch(`http://localhost:3001/activity-logs?taskId=${task.taskId}`)
-                .then((response) => response.json())
-                .then((data) => setHistoryLogs(data.reverse()))
-                .catch((error) =>
-                    console.error("Error loading task history logs:", error)
-                );
-        }
-    }, [isOpen, task.taskId, task]);
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (isOpen && !event.target.closest(".details-modal-content")) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleOutsideClick);
-
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-    }, [isOpen, onClose]);
-
+const TaskDetailsModal = ({
+    isOpen,
+    onClose,
+    task,
+    isEditing,
+    editedTask,
+    onToggleEdit,
+    onChange,
+    onSave,
+    historyLogs,
+}) => {
     if (!isOpen) return null;
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setEditedTask((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSave = async () => {
-        await onEditTaskSubmit(editedTask);
-        setIsEditing(false);
-    };
 
     return (
         <div className="details-modal-overlay" onClick={onClose}>
@@ -61,26 +25,26 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                 <div className="task-details">
                     <div className="task-info">
                         <div className="task-info-header">
-                            {!isEditing ? (
-                                <>
-                                    <h2>{task.taskName}</h2>
-                                    <Button
-                                        icon={editIcon}
-                                        onClick={() => setIsEditing(true)}
-                                    >
-                                        Edit task
-                                    </Button>
-                                </>
-                            ) : (
+                            {isEditing ? (
                                 <>
                                     <input
                                         type="text"
                                         name="taskName"
                                         value={editedTask.taskName}
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                         autoFocus
                                     />
-                                    <Button onClick={handleSave}>Save</Button>
+                                    <Button onClick={onSave}>Save</Button>
+                                </>
+                            ) : (
+                                <>
+                                    <h2>{task.taskName}</h2>
+                                    <Button
+                                        icon={editIcon}
+                                        onClick={onToggleEdit}
+                                    >
+                                        Edit task
+                                    </Button>
                                 </>
                             )}
                         </div>
@@ -93,7 +57,7 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                                         id="dueDate"
                                         name="dueDate"
                                         value={editedTask.dueDate}
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                     />
                                 </div>
                                 <div className="task-info-row">
@@ -102,7 +66,7 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                                         id="priority"
                                         name="priority"
                                         value={editedTask.priority}
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                     >
                                         <option value="low">Low</option>
                                         <option value="medium">Medium</option>
@@ -117,7 +81,7 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                                         id="taskDescription"
                                         name="taskDescription"
                                         value={editedTask.taskDescription}
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                     />
                                 </div>
                             </>
@@ -141,6 +105,7 @@ const TaskDetailsModal = ({ isOpen, onClose, task, onEditTaskSubmit }) => {
                         )}
                     </div>
                     <div className="history-section">
+                        <h3>History</h3>
                         <ul>
                             {historyLogs.map((log) => (
                                 <li key={log.id}>

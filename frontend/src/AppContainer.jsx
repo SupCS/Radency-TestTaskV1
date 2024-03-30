@@ -41,8 +41,15 @@ function AppContainer() {
     };
     const handleDeleteTask = (taskId) =>
         dispatch(deleteTask(taskId)).then(() => dispatch(fetchLists()));
-    const handleUpdateTask = (editedTask) =>
-        dispatch(updateTask(editedTask)).then(() => dispatch(fetchLists()));
+    const handleUpdateTask = (editedTask) => {
+        console.log(editedTask.taskId, editedTask);
+        dispatch(
+            updateTask({
+                taskId: editedTask.taskId,
+                updatedTask: { ...editedTask },
+            })
+        ).then(() => dispatch(fetchLists()));
+    };
     const handleMoveTask = (taskId, newListId) =>
         dispatch(moveTaskToList({ taskId, newListId })).then(() =>
             dispatch(fetchLists())

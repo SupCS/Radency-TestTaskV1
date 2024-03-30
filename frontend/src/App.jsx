@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import plusIconLight from "./assets/icons/plusIconLight.svg";
 import historyIcon from "./assets/icons/historyIcon.svg";
 import Button from "./components/common/Button/Button";
-import HistorySidebar from "./components/History/HistorySidebar";
+import HistorySidebarContainer from "./components/History/HistorySidebarContainer";
 import ScrollButtons from "./components/ScrollButtons/ScrollButtons";
 import "./App.css";
 import ListContainer from "./components/List/ListContainer";
@@ -34,7 +34,7 @@ function App({
                         New list
                     </Button>
                 </div>
-                <HistorySidebar
+                <HistorySidebarContainer
                     isOpen={isHistoryOpen}
                     onClose={() => setIsHistoryOpen(false)}
                 />

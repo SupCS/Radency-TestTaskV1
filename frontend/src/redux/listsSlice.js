@@ -1,20 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import * as listsService from "../services/listsService";
 export const fetchLists = createAsyncThunk(
     "lists/fetchLists",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3001/task-lists");
-            if (!response.ok) throw new Error("Server error!");
-            let data = await response.json();
-
-            data = data.map((list) => ({
-                ...list,
-                tasks: list.tasks.sort((a, b) => a.id - b.id),
-                // tasks: list.tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-            }));
-
-            return data;
+            return await listsService.fetchLists();
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -25,16 +15,7 @@ export const addNewList = createAsyncThunk(
     "lists/addNewList",
     async (newList, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3001/task-lists", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newList),
-            });
-            if (!response.ok) throw new Error("Failed to create new list");
-            const data = await response.json();
-            return data;
+            return await listsService.addNewList(newList);
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -45,14 +26,7 @@ export const deleteList = createAsyncThunk(
     "lists/deleteList",
     async (listId, { rejectWithValue }) => {
         try {
-            const response = await fetch(
-                `http://localhost:3001/task-lists/${listId}`,
-                {
-                    method: "DELETE",
-                }
-            );
-            if (!response.ok) throw new Error("Failed to delete the list");
-            return listId;
+            return await listsService.deleteList(listId);
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -63,19 +37,7 @@ export const updateListName = createAsyncThunk(
     "lists/updateListName",
     async ({ listId, name }, { rejectWithValue }) => {
         try {
-            const response = await fetch(
-                `http://localhost:3001/task-lists/${listId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ name }),
-                }
-            );
-            if (!response.ok) throw new Error("Failed to update list name");
-            const data = await response.json();
-            return data;
+            return await listsService.updateListName({ listId, name });
         } catch (error) {
             return rejectWithValue(error.message);
         }

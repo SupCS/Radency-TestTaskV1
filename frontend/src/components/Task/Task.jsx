@@ -1,7 +1,7 @@
 import React from "react";
 import "./Task.css";
 import calendarIcon from "../../assets/icons/calendarIcon.svg";
-import TaskDetailsModal from "../common/modal/TaskDetailsModal";
+import DetailsModalContainer from "../common/modal/DetailsModalContainer";
 import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 import Button from "../common/Button/Button.jsx";
 import editIcon from "../../assets/icons/editIcon.svg";
@@ -74,7 +74,7 @@ const Task = ({
                     </option>
                 ))}
             </select>
-            <TaskDetailsModal
+            <DetailsModalContainer
                 isOpen={isModalOpen}
                 onClose={onCloseModal}
                 task={{ taskId, taskName, taskDescription, dueDate, priority }}
