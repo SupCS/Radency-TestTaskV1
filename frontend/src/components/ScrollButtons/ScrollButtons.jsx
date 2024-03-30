@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ScrollButtons.css";
 
-const ScrollButtons = ({ scrollContainerSelector }) => {
+const ScrollButtons = ({ scrollContainerSelector, itemCount }) => {
     const [showLeftButton, setShowLeftButton] = useState(false);
     const [showRightButton, setShowRightButton] = useState(true);
 
@@ -21,9 +21,12 @@ const ScrollButtons = ({ scrollContainerSelector }) => {
         // Встановлюємо обробник подій для перевірки при скролінгу
         container.addEventListener("scroll", checkScrollButtons);
 
+        // Перевіряємо кожного разу, коли змінюється кількість елементів
+        checkScrollButtons();
+
         return () =>
             container.removeEventListener("scroll", checkScrollButtons);
-    }, [scrollContainerSelector]);
+    }, [scrollContainerSelector, itemCount]);
 
     const scroll = (direction) => {
         const container = document.querySelector(scrollContainerSelector);

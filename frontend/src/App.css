@@ -1,7 +1,6 @@
 .columns-wrapper {
     display: flex;
     overflow-x: auto;
-    overflow-x: auto;
     scrollbar-width: none;
     gap: 16px;
 }
