@@ -11,7 +11,7 @@ const ScrollButtons = ({ scrollContainerSelector, itemCount }) => {
             setShowLeftButton(container.scrollLeft > 0);
             setShowRightButton(
                 container.scrollLeft <
-                    container.scrollWidth - container.clientWidth
+                    container.scrollWidth - container.clientWidth - 1
             );
         };
 
