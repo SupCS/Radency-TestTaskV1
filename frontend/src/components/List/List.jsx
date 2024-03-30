@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./List.css";
 import TaskForm from "../common/taskform/TaskForm.jsx";
-import Task from "../Task/Task";
+import TaskContainer from "../Task/TaskContainer.jsx";
 import Button from "../common/Button/Button.jsx";
 import plusIconLight from "../../assets/icons/plusIconLight.svg";
 import Modal from "../common/modal/CreateTaskModal.jsx";
@@ -13,44 +13,21 @@ const List = ({
     id,
     title,
     tasks,
-    onAddTask,
-    onUpdateTitle,
+    isEditing,
+    newTitle,
+    onDoubleClick,
+    onChangeTitle,
+    onBlur,
+    isModalOpen,
+    onOpenModal,
+    onCloseModal,
+    onSaveTask,
     onDeleteList,
     onMoveTask,
     taskLists,
     onEditTaskSubmit,
     onDeleteTask,
 }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [newTitle, setNewTitle] = useState(title);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleDoubleClick = () => {
-        setIsEditing(true);
-    };
-
-    const handleChangeTitle = (e) => {
-        setNewTitle(e.target.value);
-    };
-
-    const handleBlur = () => {
-        onUpdateTitle(id, newTitle);
-        setIsEditing(false);
-    };
-
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleSaveTask = (taskData) => {
-        onAddTask(id, taskData);
-        handleCloseModal();
-    };
-
     return (
         <div className="column">
             <div className="column-header-container">
@@ -58,20 +35,17 @@ const List = ({
                     <input
                         type="text"
                         value={newTitle}
-                        onChange={handleChangeTitle}
-                        onBlur={handleBlur}
+                        onChange={onChangeTitle}
+                        onBlur={onBlur}
                         autoFocus
                     />
                 ) : (
-                    <h2
-                        className="column-title"
-                        onDoubleClick={handleDoubleClick}
-                    >
+                    <h2 className="column-title" onDoubleClick={onDoubleClick}>
                         {title}
                     </h2>
                 )}
                 <KebabMenu>
-                    <Button icon={editIcon} onClick={() => setIsEditing(true)}>
+                    <Button icon={editIcon} onClick={onDoubleClick}>
                         Edit
                     </Button>
                     <Button icon={deleteIcon} onClick={() => onDeleteList(id)}>
@@ -79,25 +53,23 @@ const List = ({
                     </Button>
                 </KebabMenu>
             </div>
-            <Button icon={plusIconLight} dark onClick={handleOpenModal}>
+            <Button icon={plusIconLight} dark onClick={onOpenModal}>
                 Add new task
             </Button>
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                <TaskForm onSave={handleSaveTask} />
+            <Modal isOpen={isModalOpen} onClose={onCloseModal}>
+                <TaskForm onSave={onSaveTask} />
             </Modal>
             <div className="tasks-list">
-                {tasks.map((task, index) => (
-                    <Task
+                {tasks.map((task) => (
+                    <TaskContainer
                         key={task.id}
                         taskId={task.id}
                         taskName={task.taskName}
                         taskDescription={task.taskDescription}
                         dueDate={task.dueDate}
                         priority={task.priority}
-                        taskLists={taskLists.filter((list) => list.id !== id)} // Виключаємо поточний список з опцій переміщення
-                        onMoveTask={(taskId, newListId) =>
-                            onMoveTask(taskId, newListId)
-                        }
+                        taskLists={taskLists.filter((list) => list.id !== id)}
+                        onMoveTask={onMoveTask}
                         onEditTaskSubmit={onEditTaskSubmit}
                         onDeleteTask={onDeleteTask}
                     />

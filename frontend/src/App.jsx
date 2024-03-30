@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import plusIconLight from "./assets/icons/plusIconLight.svg";
 import historyIcon from "./assets/icons/historyIcon.svg";
 import Button from "./components/common/Button/Button";
-import List from "./components/List/List";
 import HistorySidebar from "./components/History/HistorySidebar";
 import ScrollButtons from "./components/ScrollButtons/ScrollButtons";
 import "./App.css";
+import ListContainer from "./components/List/ListContainer";
 
 function App({
     taskLists,
@@ -22,9 +22,6 @@ function App({
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
     const toggleHistory = () => setIsHistoryOpen(!isHistoryOpen);
-
-    if (status === "loading") return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="App">
@@ -43,13 +40,13 @@ function App({
                 />
                 <div className="columns-wrapper">
                     {taskLists.map((list) => (
-                        <List
+                        <ListContainer
                             key={list.id}
                             id={list.id}
                             title={list.name}
                             tasks={list.tasks || []}
-                            onUpdateTitle={(newName) =>
-                                onUpdateTitle(list.id, newName)
+                            onUpdateTitle={(listId, newName) =>
+                                onUpdateTitle(listId, newName)
                             }
                             onDeleteList={() => onDeleteList(list.id)}
                             onAddTask={(listId, task) =>

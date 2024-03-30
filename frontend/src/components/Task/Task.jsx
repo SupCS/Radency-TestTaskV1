@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Task.css";
 import calendarIcon from "../../assets/icons/calendarIcon.svg";
 import TaskDetailsModal from "../common/modal/TaskDetailsModal";
@@ -6,50 +6,24 @@ import KebabMenu from "../common/KebabMenu/KebabMenu.jsx";
 import Button from "../common/Button/Button.jsx";
 import editIcon from "../../assets/icons/editIcon.svg";
 import deleteIcon from "../../assets/icons/deleteIcon.svg";
+import { formatDate, priorityText } from "../../utils/tasksUtils.js";
 
 const Task = ({
+    taskId,
     taskName,
     taskDescription,
     dueDate,
     priority,
     taskLists,
     onMoveTask,
-    taskId,
     onEditTaskSubmit,
     onDeleteTask,
+    isModalOpen,
+    onOpenModal,
+    onCloseModal,
 }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const priorityText = (priority) => {
-        switch (priority) {
-            case "low":
-                return "Low";
-            case "medium":
-                return "Medium";
-            case "high":
-                return "High";
-            default:
-                return "Not stated";
-        }
-    };
-
-    const handleMoveTask = (e, newListId) => {
-        e.stopPropagation();
-        onMoveTask(taskId, newListId);
-    };
-
-    const formatDate = (dateString) => {
-        const options = { weekday: "short", day: "numeric", month: "short" };
-        const date = new Date(dateString);
-        return date.toLocaleDateString("en-US", options);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
     return (
-        <div className={`task-card`} onClick={() => setIsModalOpen(true)}>
+        <div className="task-card" onClick={onOpenModal}>
             <div className="task-header-container">
                 <h3 className="task-title">{taskName}</h3>
                 <KebabMenu>
@@ -57,7 +31,7 @@ const Task = ({
                         icon={editIcon}
                         onClick={(e) => {
                             e.stopPropagation();
-                            setIsModalOpen(true);
+                            onOpenModal();
                         }}
                     >
                         Edit
@@ -79,7 +53,7 @@ const Task = ({
                     src={calendarIcon}
                     className="calendar-icon"
                     alt="calendar icon"
-                ></img>
+                />
                 <span className="task-date">{formatDate(dueDate)}</span>
             </div>
             <div className={`task-priority ${priority}`}>
@@ -87,10 +61,13 @@ const Task = ({
                 <span className="priority-text">{priorityText(priority)}</span>
             </div>
             <select
-                onChange={(e) => handleMoveTask(e, e.target.value)}
+                onChange={(e) => onMoveTask(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
+                defaultValue=""
             >
-                <option value="">Move to:</option>
+                <option value="" disabled>
+                    Move to:
+                </option>
                 {taskLists.map((list) => (
                     <option key={list.id} value={list.id}>
                         {list.name}
@@ -99,9 +76,11 @@ const Task = ({
             </select>
             <TaskDetailsModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={onCloseModal}
                 task={{ taskId, taskName, taskDescription, dueDate, priority }}
-                onEditTaskSubmit={onEditTaskSubmit}
+                onEditTaskSubmit={(updatedTask) =>
+                    onEditTaskSubmit({ ...updatedTask, taskId })
+                }
             />
         </div>
     );

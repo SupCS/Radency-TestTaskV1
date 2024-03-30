@@ -28,12 +28,13 @@ function AppContainer() {
     }, [dispatch]);
 
     const handleAddNewList = () => dispatch(addNewList({ name: "New list" }));
-    const handleUpdateTitle = (listId, newName) =>
+    const handleUpdateTitle = (listId, newName) => {
+        console.log(listId, newName);
         dispatch(updateListName({ listId, name: newName }));
+    };
     const handleDeleteList = (listId) => dispatch(deleteList(listId));
 
     const handleAddTask = (listId, task) => {
-        console.log(listId, task);
         dispatch(addTask({ ...task, taskListId: listId })).then(() =>
             dispatch(fetchLists())
         );

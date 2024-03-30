@@ -65,16 +65,17 @@ export class TaskListService {
     }
   
     const oldName = taskList.name;
-    taskList.name = newName;
-    await this.taskListRepository.save(taskList);
+    if (oldName !== newName) {
+      taskList.name = newName;
+      await this.taskListRepository.save(taskList);
   
-    await this.activityLogService.logEvent(
-      'update_list',
-      `List '${oldName}' (ID${id}) was renamed to '${newName}'.`,
-      null,
-      id
-    );
-  
+      await this.activityLogService.logEvent(
+        'update_list',
+        `List '${oldName}' (ID${id}) was renamed to '${newName}'.`,
+        null,
+        id
+      );
+    }
     return taskList;
   }
   
