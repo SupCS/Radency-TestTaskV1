@@ -29,19 +29,27 @@ export class TasksService {
   }
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
-    const task = this.tasksRepository.create(createTaskDto);
+    const { taskListId, ...taskData } = createTaskDto;
+    const task = this.tasksRepository.create(taskData);
+    if (taskListId) {
+      const taskList = await this.taskListRepository.findOneBy({ id: taskListId });
+      if (!taskList) {
+        throw new NotFoundException(`TaskList with ID ${taskListId} not found`);
+      }
+      task.taskList = taskList;
+    }
     const savedTask = await this.tasksRepository.save(task);
-
+  
     await this.activityLogService.logEvent(
       'create',
       `Task '${savedTask.taskName}' was created.`,
       savedTask.id,
-      createTaskDto.taskListId
+      taskListId
     );
-
+  
     return savedTask;
   }
-
+  
   async update(id: number, updateTaskDto: Task): Promise<Task> {
     const task = await this.findOne(id);
     if (!task) {

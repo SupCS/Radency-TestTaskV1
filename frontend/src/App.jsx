@@ -5,6 +5,7 @@ import Button from "./components/common/Button/Button";
 import List from "./components/List/List";
 import React, { useState, useEffect } from "react";
 import HistorySidebar from "./components/History/HistorySidebar";
+import ScrollButtons from "./components/ScrollButtons/ScrollButtons";
 
 function App() {
     const [taskLists, setTaskLists] = useState([]);
@@ -19,7 +20,14 @@ function App() {
     const fetchTasks = () => {
         fetch("http://localhost:3001/task-lists")
             .then((response) => response.json())
-            .then((data) => setTaskLists(data))
+            .then((data) => {
+                const sortedData = data.map((list) => ({
+                    ...list,
+                    tasks: list.tasks.sort((a, b) => a.id - b.id), // Сортування задач за ID в кожному списку
+                    // tasks: list.tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)) // Сортування задач за dueDate
+                }));
+                setTaskLists(sortedData);
+            })
             .catch((error) => console.error("Error fetching data:", error));
     };
 
@@ -106,6 +114,7 @@ function App() {
     };
 
     const addTask = async (taskListId, task) => {
+        console.log(taskListId, task);
         try {
             const response = await fetch("http://localhost:3001/tasks", {
                 method: "POST",
@@ -202,6 +211,7 @@ function App() {
                     ))}
                 </div>
             </div>
+            <ScrollButtons scrollContainerSelector=".columns-wrapper" />
         </div>
     );
 }
