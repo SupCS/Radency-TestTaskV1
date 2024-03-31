@@ -144,8 +144,8 @@ p {
     }
 
     .task-info {
-        flex: 0 1 30%;
-        min-height: 0;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .history-section {

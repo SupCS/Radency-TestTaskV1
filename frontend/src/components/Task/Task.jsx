@@ -21,11 +21,13 @@ const Task = ({
     isModalOpen,
     onOpenModal,
     onCloseModal,
+    truncatedTaskName,
+    truncatedTaskDescription,
 }) => {
     return (
         <div className="task-card" onClick={onOpenModal}>
             <div className="task-header-container">
-                <h3 className="task-title">{taskName}</h3>
+                <h3 className="task-title">{truncatedTaskName}</h3>
                 <KebabMenu>
                     <Button
                         icon={editIcon}
@@ -47,7 +49,7 @@ const Task = ({
                     </Button>
                 </KebabMenu>
             </div>
-            <p className="task-description">{taskDescription}</p>
+            <p className="task-description">{truncatedTaskDescription}</p>
             <div className="task-metadata">
                 <img
                     src={calendarIcon}

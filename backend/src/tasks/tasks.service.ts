@@ -60,7 +60,8 @@ export class TasksService {
     const oldValues = {
       taskName: task.taskName,
       description: task.taskDescription,
-      priority: task.priority
+      priority: task.priority,
+      dueDate: task.dueDate
     };
   
     // Оновлюємо завдання
@@ -72,6 +73,7 @@ export class TasksService {
     if (oldValues.taskName !== updatedTask.taskName) changes.push('name');
     if (oldValues.description !== updatedTask.taskDescription) changes.push('description');
     if (oldValues.priority !== updatedTask.priority) changes.push('priority');
+    if (oldValues.dueDate !== updatedTask.dueDate) changes.push('due date');
     
     // Логуємо зміни
     if (changes.length > 0) {
