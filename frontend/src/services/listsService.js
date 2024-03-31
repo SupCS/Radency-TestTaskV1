@@ -1,7 +1,7 @@
 const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
 
 export const fetchLists = () => {
-    return fetch(`${API_URL}/task-lists`)
+    return fetch(`${API_URL}task-lists`)
         .then((response) => {
             if (!response.ok) throw new Error("Server error!");
             return response.json();

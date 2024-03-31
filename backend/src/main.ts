@@ -5,7 +5,11 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  await app.listen(3001);
+  app.enableCors({
+    origin: ['https://aspariankanban.netlify.app', 'http://localhost:3000'], // Добавьте сюда все домены, с которых ваше API может принимать запросы
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Accept",
+  });
+  await app.listen(process.env.PORT || 3001);
 }
 bootstrap();
