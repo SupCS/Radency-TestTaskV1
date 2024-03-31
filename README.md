@@ -4,7 +4,10 @@ The Kanban Board is a web application designed for task and project management, 
 ## Start working
 
 Start with docker:
+
 docker-compose up --build
+
+You will get an empty database, so feel free to create your lists and tasks from scratch!
 
 Start locally:
 
