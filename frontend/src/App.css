@@ -32,3 +32,39 @@
     right: 0;
     left: auto;
 }
+
+@media (max-width: 1368px) {
+
+body {
+    overflow-y: hidden;
+}
+
+.columns-wrapper {
+    padding-bottom: 50px;
+}
+
+.column {
+    height: calc(100vh - 80px);
+}
+
+.tasks-list {
+    overflow-y: auto;
+}
+
+.scroll-buttons {
+    justify-content: space-between;
+}
+
+.kebab-menu-container {
+    position: relative;
+}
+
+.kebab-menu-container .popup-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    transform: translateX(-100%);
+    z-index: 1050;
+}
+}
+  

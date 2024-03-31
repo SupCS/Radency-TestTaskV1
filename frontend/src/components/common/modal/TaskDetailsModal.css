@@ -131,3 +131,26 @@ p {
 .history-section li {
     margin-bottom: 10px;
 }
+
+@media (max-width: 1368px) {
+    .details-modal-content {
+        width: 80%;
+        height: 80%;
+        overflow-y: auto;
+    }
+
+    .task-details {
+        flex-direction: column;
+    }
+
+    .task-info {
+        flex: 0 1 30%;
+        min-height: 0;
+    }
+
+    .history-section {
+        flex: 1;
+        max-height: none;
+        overflow-y: auto;
+    }
+}
