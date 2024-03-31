@@ -12,7 +12,7 @@ import { ActivityLogModule } from './activity-log/activity-log.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db',
+      host: 'localhost',
       port: 5432,
       username: 'postgres',
       password: 'papakanban',
