@@ -1,11 +1,11 @@
-const API_URL = "http://localhost:3001/tasks";
+const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
 
 export const fetchTasks = () => {
-    return fetch(API_URL).then((response) => response.json());
+    return fetch(`${API_URL}/tasks`).then((response) => response.json());
 };
 
 export const addTask = (task) => {
-    return fetch(API_URL, {
+    return fetch(`${API_URL}/tasks`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const addTask = (task) => {
 };
 
 export const deleteTask = (taskId) => {
-    return fetch(`${API_URL}/${taskId}`, {
+    return fetch(`${API_URL}/tasks/${taskId}`, {
         method: "DELETE",
     }).then((response) => {
         if (!response.ok) {
@@ -25,7 +25,7 @@ export const deleteTask = (taskId) => {
 };
 
 export const updateTask = (taskId, editedTask) => {
-    return fetch(`${API_URL}/${taskId}`, {
+    return fetch(`${API_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const updateTask = (taskId, editedTask) => {
 };
 
 export const moveTaskToList = (taskId, newListId) => {
-    return fetch(`${API_URL}/${taskId}/move`, {
+    return fetch(`${API_URL}/tasks/${taskId}/move`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

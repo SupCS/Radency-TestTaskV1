@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:3001/task-lists";
+const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
 
 export const fetchLists = () => {
-    return fetch(API_URL)
+    return fetch(`${API_URL}/task-lists`)
         .then((response) => {
             if (!response.ok) throw new Error("Server error!");
             return response.json();
@@ -15,7 +15,7 @@ export const fetchLists = () => {
 };
 
 export const addNewList = (newList) => {
-    return fetch(API_URL, {
+    return fetch(`${API_URL}/task-lists`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const addNewList = (newList) => {
 };
 
 export const deleteList = (listId) => {
-    return fetch(`${API_URL}/${listId}`, {
+    return fetch(`${API_URL}/task-lists/${listId}`, {
         method: "DELETE",
     }).then((response) => {
         if (!response.ok) throw new Error("Failed to delete the list");
@@ -37,7 +37,7 @@ export const deleteList = (listId) => {
 };
 
 export const updateListName = ({ listId, name }) => {
-    return fetch(`${API_URL}/${listId}`, {
+    return fetch(`${API_URL}/task-lists/${listId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
