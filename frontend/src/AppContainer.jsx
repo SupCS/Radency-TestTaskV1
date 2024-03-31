@@ -29,8 +29,9 @@ function AppContainer() {
 
     const handleAddNewList = () => dispatch(addNewList({ name: "New list" }));
     const handleUpdateTitle = (listId, newName) => {
-        console.log(listId, newName);
-        dispatch(updateListName({ listId, name: newName }));
+        dispatch(updateListName({ listId, name: newName })).then(() =>
+            dispatch(fetchLists())
+        );
     };
     const handleDeleteList = (listId) => dispatch(deleteList(listId));
 
